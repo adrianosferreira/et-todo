@@ -1,4 +1,5 @@
 import React from 'react';
+import EditableField from "./EditableField";
 
 function TaskTable(props) {
 
@@ -14,9 +15,7 @@ function TaskTable(props) {
 
 					return <li className="collection-item left-align" key={task.id}>
 						<div>
-							{task.isEditing && allowInlineEditing ?
-								<input style={{width: 'auto'}} onChange={(e) => actions.changeTaskField(task.id, 'name', e.target.value)} onKeyDown={(e) => actions.endEditingTask(task.id, e.key)} type="text" value={task.name}/> :
-								<span onClick={() => actions.changeTaskField(task.id, 'isEditing', true)}>{task.name}</span>}
+							<EditableField id={task.id} allowInlineEditing={allowInlineEditing} isEditing={task.isEditing} changeField={actions.changeTaskField} value={task.name}/>
 							{showDoneBtn && <a onClick={() => actions.changeTaskField(task.id, 'status', 0)} style={buttonsStyle} className="secondary-content waves-effect waves-light btn"><i className="large material-icons">done</i></a>}
 							{showDeleteBtn && <a onClick={() => actions.delete(task.id)} style={buttonsStyle} className="secondary-content waves-effect waves-light btn"><i className="large material-icons">delete_forever</i></a>}
 						</div>
