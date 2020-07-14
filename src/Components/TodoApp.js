@@ -1,7 +1,6 @@
 import React from 'react';
-import './App.css';
-import AddTask from "./Components/AddTask";
-import TaskTable from "./Components/TaskTable";
+import AddTask from "./AddTask";
+import TaskTable from "./TaskTable";
 
 class TodoApp extends React.Component {
 
