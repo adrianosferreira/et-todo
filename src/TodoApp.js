@@ -13,12 +13,9 @@ class TodoApp extends React.Component {
 		}
 	}
 
-	addTask = (e) => {
-		const {key, target} = e;
+	addTask = (e, afterTaskAdded) => {
 
-		if (key !== 'Enter') {
-			return;
-		}
+		const {target} = e;
 
 		this.setState(state => {
 			return {
@@ -32,7 +29,7 @@ class TodoApp extends React.Component {
 					}
 				]
 			}
-		}, () => target.value = "");
+		}, () => afterTaskAdded(target));
 	};
 
 	deleteTask = (indexToRemove) => {
@@ -46,14 +43,6 @@ class TodoApp extends React.Component {
 
 	changeTaskEditingState = (id, status) => {
 		this.changeTaskField(id, 'isEditing', status);
-	};
-
-	endEditingTask = (id, key) => {
-		if (key !== 'Enter') {
-			return;
-		}
-
-		this.changeTaskEditingState(id, false)
 	};
 
 	changeTaskField = (id, field, value) => {
@@ -76,7 +65,6 @@ class TodoApp extends React.Component {
 		const actions = {
 			delete:          this.deleteTask,
 			changeTaskField: this.changeTaskField,
-			endEditingTask:  this.endEditingTask
 		};
 
 		return (<div className="App">
