@@ -8,30 +8,84 @@ class TodoApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tasks: []
+			newTaskName: '',
+			tasks:       []
 		}
 	}
 
 	addTask = (e) => {
 		const {key, target} = e;
-		if (key === 'Enter') {
 
-			this.setState(state => {
-				return {
-					...state,
-					tasks: [...state.tasks, target.value]
-				}
-			});
+		if (key !== 'Enter') {
+			return;
 		}
+
+		this.setState(state => {
+			return {
+				...state,
+				tasks: [
+					...state.tasks, {
+						id:        new Date().getTime(),
+						name:      target.value,
+						status:    1,
+						isEditing: false
+					}
+				]
+			}
+		}, () => target.value = "");
+	};
+
+	deleteTask = (indexToRemove) => {
+		this.setState(state => {
+			return {
+				...state,
+				tasks: state.tasks.filter(task => task.id !== indexToRemove)
+			}
+		});
+	};
+
+	changeTaskEditingState = (id, status) => {
+		this.changeTaskField(id, 'isEditing', status);
+	};
+
+	endEditingTask = (id, key) => {
+		if (key !== 'Enter') {
+			return;
+		}
+
+		this.changeTaskEditingState(id, false)
+	};
+
+	changeTaskField = (id, field, value) => {
+		this.setState(state => {
+			return {
+				...state,
+				tasks: state.tasks.map(task => {
+					if (task.id === id) {
+						task[field] = value;
+					}
+
+					return task;
+				})
+			}
+		});
 	};
 
 	render() {
+		const {tasks} = this.state;
+		const actions = {
+			delete:          this.deleteTask,
+			changeTaskField: this.changeTaskField,
+			endEditingTask:  this.endEditingTask
+		};
+
 		return (<div className="App">
 			<div className="row">
 				<div className="row">
 					<div className="input-field col s5">
 						<AddTask addTask={this.addTask}/>
-						<TaskTable tasks={this.state.tasks}/>
+						<TaskTable showDoneBtn={true} showDeleteBtn={true} allowInlineEditing={true} title="Pending Tasks" actions={actions} tasks={tasks.filter(task => task.status)}/>
+						<TaskTable opacity={0.5} actions={actions} title="Tasks Done" tasks={tasks.filter(task => !task.status)}/>
 					</div>
 				</div>
 			</div>
