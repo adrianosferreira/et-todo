@@ -11,11 +11,11 @@ class TodoApp extends React.Component {
 	}
 
 	componentDidMount() {
-		TodoStore.addChangeListener(this._onChange);
+		TodoStore.addChangeListener(this.handleStoreChange);
 	}
 
 	componentWillUnmount() {
-		TodoStore.removeChangeListener(this._onChange());
+		TodoStore.removeChangeListener(this.handleStoreChange());
 	}
 
 	getTodoState() {
@@ -24,7 +24,7 @@ class TodoApp extends React.Component {
 		}
 	}
 
-	_onChange = () => {
+	handleStoreChange = () => {
 		this.setState(this.getTodoState())
 	};
 

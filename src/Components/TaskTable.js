@@ -1,6 +1,7 @@
 import React from 'react';
 import EditableField from "./EditableField";
 import TodoActions from "../Actions/TodoActions";
+import TodoStore from "../Stores/TodoStore";
 
 const handleDestroyClick = (id) => {
 	TodoActions.destroy(id);
