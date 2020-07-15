@@ -1,23 +1,22 @@
 import React from 'react';
+import TodoActions from "../Actions/TodoActions";
 
-function AddTask(props) {
+class AddTask extends React.Component{
 
-	const afterTaskAdded = (target) => {
-		target.value = "";
-	};
-
-	const addTaskOnEnter = (e) => {
-		if (e.key !== "Enter" || !e.target.value) {
+	addTaskOnEnter = (e) => {
+		if (e.key !== "Enter") {
 			return;
-		};
+		}
 
-		props.addTask(e, afterTaskAdded);
+		TodoActions.create(e.target.value);
 	};
 
-	return <React.Fragment>
-		<input onKeyDown={addTaskOnEnter} placeholder="Add a new task"type="text" className="validate" />
-		<label htmlFor="first_name">Task Name</label>
-	</React.Fragment>
+	render() {
+		return <React.Fragment>
+			<input onKeyDown={this.addTaskOnEnter} placeholder="Add a new task" type="text" className="validate" />
+			<label htmlFor="first_name">Task Name</label>
+		</React.Fragment>
+	}
 }
 
 export default AddTask;

@@ -1,77 +1,43 @@
 import React from 'react';
-import AddTask from "./AddTask";
 import TaskTable from "./TaskTable";
+import TodoStore from "../Stores/TodoStore";
+import AddTask from "./AddTask";
 
 class TodoApp extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			tasks:       []
+		this.state = this.getTodoState()
+	}
+
+	componentDidMount() {
+		TodoStore.addChangeListener(this._onChange);
+	}
+
+	componentWillUnmount() {
+		TodoStore.removeChangeListener(this._onChange());
+	}
+
+	getTodoState() {
+		return {
+			tasks: TodoStore.getAll()
 		}
 	}
 
-	addTask = (e, afterTaskAdded) => {
-
-		const {target} = e;
-
-		this.setState(state => {
-			return {
-				...state,
-				tasks: [
-					...state.tasks, {
-						id:        new Date().getTime(),
-						name:      target.value,
-						status:    1,
-						isEditing: false
-					}
-				]
-			}
-		}, () => afterTaskAdded(target));
-	};
-
-	deleteTask = (indexToRemove) => {
-		this.setState(state => {
-			return {
-				...state,
-				tasks: state.tasks.filter(task => task.id !== indexToRemove)
-			}
-		});
-	};
-
-	changeTaskEditingState = (id, status) => {
-		this.changeTaskField(id, 'isEditing', status);
-	};
-
-	changeTaskField = (id, field, value) => {
-		this.setState(state => {
-			return {
-				...state,
-				tasks: state.tasks.map(task => {
-					if (task.id === id) {
-						task[field] = value;
-					}
-
-					return task;
-				})
-			}
-		});
+	_onChange = () => {
+		this.setState(this.getTodoState())
 	};
 
 	render() {
 		const {tasks} = this.state;
-		const actions = {
-			delete:          this.deleteTask,
-			changeTaskField: this.changeTaskField,
-		};
 
 		return (<div className="App">
 			<div className="row">
 				<div className="row">
 					<div className="input-field col s5">
-						<AddTask addTask={this.addTask}/>
-						<TaskTable showDoneBtn={true} showDeleteBtn={true} allowInlineEditing={true} title="Pending Tasks" actions={actions} tasks={tasks.filter(task => task.status)}/>
-						<TaskTable opacity={0.5} actions={actions} title="Tasks Done" tasks={tasks.filter(task => !task.status)}/>
+						<AddTask/>
+						<TaskTable showDoneBtn={true} showDeleteBtn={true} allowInlineEditing={true} title="Pending Tasks" tasks={tasks.filter(task => task.status)}/>
+						<TaskTable opacity={0.5} title="Tasks Done" tasks={tasks.filter(task => !task.status)}/>
 					</div>
 				</div>
 			</div>
