@@ -4,7 +4,7 @@ import { connect } from "@cerebral/react";
 
 function EditableField(props) {
 	const {id, changeTaskField, tasks} = props;
-	const task = tasks.filter(task => task.id === id)[0];
+	const task = tasks[id];
 
 	const endEditing = (e) => {
 		if (e.key !== 'Enter') {
@@ -20,4 +20,4 @@ function EditableField(props) {
 	</React.Fragment>
 }
 
-export default connect({changeTaskField: sequences`changeTaskField`, tasks: state`tasks`}, EditableField);
+export default connect({changeTaskField: sequences`changeTaskField`, tasks: state`all`}, EditableField);

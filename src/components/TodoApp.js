@@ -7,15 +7,15 @@ import { connect } from '@cerebral/react'
 class TodoApp extends React.Component {
 
   render () {
-    const { tasks } = this.props
+    const { active, inactive } = this.props
 
     return (<div className="App">
       <div className="row">
         <div className="row">
           <div className="input-field col s5">
             <AddTask/>
-            <TaskTable showDoneBtn={true} showDeleteBtn={true} title="Pending Tasks" tasks={tasks.filter(task => task.status)}/>
-            <TaskTable opacity={0.5} title="Tasks Done" tasks={tasks.filter(task => !task.status)}/>
+            <TaskTable showDoneBtn={true} showDeleteBtn={true} title="Pending Tasks" tasks={active}/>
+            <TaskTable opacity={0.5} title="Tasks Done" tasks={inactive}/>
           </div>
         </div>
       </div>
@@ -23,4 +23,7 @@ class TodoApp extends React.Component {
   }
 }
 
-export default connect({ tasks: state`tasks` }, TodoApp)
+export default connect({
+  active:   state`active`,
+  inactive: state`inactive`
+}, TodoApp)
