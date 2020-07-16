@@ -16,7 +16,7 @@ function TaskTable (props) {
           return <li className="collection-item left-align" key={task.id}>
             <div>
               <EditableField id={task.id}/>
-              <ActionButtons showDeleteBtn={showDeleteBtn} showDoneBtn={showDoneBtn} task={task} />
+              <ActionButtons showDeleteBtn={showDeleteBtn} showDoneBtn={showDoneBtn} id={task.id} />
             </div>
           </li>
         })}

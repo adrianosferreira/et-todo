@@ -6,6 +6,7 @@ export const app = App({
   state:     {
     tasks:       {},
     newTaskText: '',
+    currentText: '',
     active:      get => Object.values(get(state`tasks`)).filter(task => task.status),
     inactive:    get => Object.values(get(state`tasks`)).filter(task => !task.status),
     all:         get => get(state`tasks`),
