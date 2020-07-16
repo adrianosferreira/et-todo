@@ -1,10 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import TodoApp from "./Components/TodoApp";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import TodoApp from './components/TodoApp'
+import { Container } from '@cerebral/react'
+import { app } from './app'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <TodoApp/>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+ReactDOM.render(<Container app={app}>
+  <TodoApp/>
+</Container>, document.getElementById('root'))
